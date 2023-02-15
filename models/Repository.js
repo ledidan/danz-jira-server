@@ -1,7 +1,6 @@
 const { MongoClient } = require("mongodb");
 var mongodb = require("mongodb");
-var url =
-  "mongodb+srv://admin:Binbon123@jiraserver.npm0h1u.mongodb.net/?retryWrites=true&w=majority"; // đường dẫn database
+var url = process.env.MONGODB_URI; // đường dẫn database
 var opt = { useUnifiedTopology: true }; // khai báo để tránh lỗi
 var dataBase = "jiraserver";
 
