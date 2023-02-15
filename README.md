@@ -1,5 +1,10 @@
 # Fira Server
 
+
+### Installed Packages
+
+Packages Used: bcrypt, express-pino-logger, joi, jwt, lodash, pino, logflare
+
 ### Folder Structure
 
 ````
