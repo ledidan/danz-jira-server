@@ -1,4 +1,4 @@
-# danz-jira-server
+# Fira Server
 
 ### Folder Structure
 
