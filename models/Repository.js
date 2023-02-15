@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 var mongodb = require("mongodb");
-var url = process.env.MONGODB_URL; // đường dẫn database
+var url = process.env.MONGO_URI; // đường dẫn database
 var opt = { useUnifiedTopology: true }; // khai báo để tránh lỗi
 var dataBase = "jiraserver";
 
