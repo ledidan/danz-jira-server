@@ -1,6 +1,6 @@
 const { MongoClient } = require("mongodb");
 var mongodb = require("mongodb");
-var url = "mongodb://localhost:27017"; // đường dẫn database
+var url = process.env.MONGO_URI; // đường dẫn database
 var opt = { useUnifiedTopology: true }; // khai báo để tránh lỗi
 var dataBase = "jiraserver";
 

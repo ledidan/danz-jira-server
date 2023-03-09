@@ -275,54 +275,106 @@ module.exports = {
     }
   },
 
-  getUserByProjectId: async (req, res) => {
-    const idProject = _.get(req, "query.idProject", null);
-    const response = {
-      statusCode: 400,
-      message: "Delete user failed",
-      content: null,
-    };
+  // getUserByProjectId: async (req, res) => {
+  //   const idProject = _.get(req, "query.idProject", null);
+  //   const response = {
+  //     statusCode: 400,
+  //     message: "Delete user failed",
+  //     content: null,
+  //   };
 
+  //   try {
+  //     logInfo(
+  //       `[USER] >> [GET USER BY PROJECTID] params ${JSON.stringify(req.query)}`
+  //     );
+
+  //     if (idProject === null) {
+  //       logInfo("[ERROR USER] [GET USER BY PROJECTID] ProjectId not found");
+  //       response.statusCode = 404;
+  //       response.message = "ProjectId not found!";
+  //       return res.status(404).send(response);
+  //     }
+
+  //     const fetchUserByProjectId = await ProjectModel.findOne({
+  //       id: idProject,
+  //     });
+  //     if (!fetchUserByProjectId) {
+  //       logInfo("[ERROR USER] [GET USER BY PROJECTID] ProjectId not found");
+  //       response.message = "ProjectId not found";
+  //       return res.status(404).send(response);
+  //     }
+
+  //     if (fetchUserByProjectId.members.length < 1) {
+  //       logInfo(
+  //         "[ERROR USER] [GET USER BY PROJECTID] User not found in the project!"
+  //       );
+  //       response.message = "User not found in the project!";
+  //       return res.status(404).send(response);
+  //     }
+
+  //     response.statusCode = 200;
+  //     response.message = "Request successfully";
+  //     response.content = fetchUserByProjectId.members;
+  //     logInfo(
+  //       `[USER] >> [GET USER BY PROJECTID] response ${JSON.stringify(response)}`
+  //     );
+  //     return res.status(response.statusCode).send(response);
+  //   } catch (err) {
+  //     logInfo(`[ERROR USER] [GET USER BY PROJECTID] ${JSON.stringify(err)}`);
+  //     response.statusCode = 500;
+  //     response.message = "Internal Server Error";
+  //     return res.status(response.statusCode).send(response);
+  //   }
+  // },
+  getUserByProjectId: async (req, res) => {
     try {
+      const idProject = _.get(req, "query.idProject", null);
       logInfo(
         `[USER] >> [GET USER BY PROJECTID] params ${JSON.stringify(req.query)}`
       );
-
-      if (idProject === null) {
+      if (!idProject) {
+        const response = {
+          statusCode: 400,
+          message: "ProjectId parameter is missing.",
+          content: null,
+        };
         logInfo("[ERROR USER] [GET USER BY PROJECTID] ProjectId not found");
-        response.statusCode = 404;
-        response.message = "ProjectId not found!";
-        return res.status(404).send(response);
+        return res.status(response.statusCode).send(response);
       }
 
       const fetchUserByProjectId = await ProjectModel.findOne({
         id: idProject,
       });
-      if (!fetchUserByProjectId) {
-        logInfo("[ERROR USER] [GET USER BY PROJECTID] ProjectId not found");
-        response.message = "ProjectId not found";
-        return res.status(404).send(response);
-      }
 
-      if (fetchUserByProjectId.members.length < 1) {
+      if (!fetchUserByProjectId) {
+        const response = {
+          statusCode: 404,
+          message: "Project not found.",
+          content: [],
+        };
         logInfo(
           "[ERROR USER] [GET USER BY PROJECTID] User not found in the project!"
         );
-        response.message = "User not found in the project!";
-        return res.status(404).send(response);
+        return res.status(response.statusCode).send(response);
       }
 
-      response.statusCode = 200;
-      response.message = "Request successfully";
-      response.content = fetchUserByProjectId.members;
+      const members = fetchUserByProjectId.members || [];
+      const response = {
+        statusCode: 200,
+        message: "Request successful.",
+        content: members,
+      };
       logInfo(
         `[USER] >> [GET USER BY PROJECTID] response ${JSON.stringify(response)}`
       );
       return res.status(response.statusCode).send(response);
     } catch (err) {
+      const response = {
+        statusCode: 500,
+        message: `Internal Server Error: ${err.message}`,
+        content: null,
+      };
       logInfo(`[ERROR USER] [GET USER BY PROJECTID] ${JSON.stringify(err)}`);
-      response.statusCode = 500;
-      response.message = "Internal Server Error";
       return res.status(response.statusCode).send(response);
     }
   },

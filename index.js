@@ -18,7 +18,9 @@ app.use(loggerMidlleware);
 
 const PORT = process.env.PORT || 5500;
 
-app.use(cors());
+app.use(
+  cors({ origin: [process.env.CLIENT_URL, process.env.CLIENT_URL_VERCEL] })
+);
 
 // Import Routes
 const auth = require("./services/user/Auth.route");
@@ -34,7 +36,9 @@ const ping = require("./services/ping/Ping.route");
 
 // Middleware
 app.use(express.json());
-
+app.get("/", (req, res, next) => {
+  return res.status(200).send("Hello welcome to our fira server");
+});
 // Route Middlewares
 app.use("/users", auth);
 app.use("/project", project);
