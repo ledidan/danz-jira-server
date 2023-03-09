@@ -95,7 +95,7 @@ module.exports = {
 
       const getTaskByProjectId = await TaskModel.find({ projectId });
 
-      const status = await StatusModel.find();
+      const status = await StatusModel.find().sort({ statusId: 1 });
 
       const mappingStatusIdToTaskDetail = getTaskByProjectId.reduce(
         (acc, cur) => {
